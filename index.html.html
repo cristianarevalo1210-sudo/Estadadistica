@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Humo nuevo, hábitos viejos: vapeo y tabaco en jóvenes de Colombia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700;12..96,800&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#eef1f6;--surf:#fff;--ink:#14213d;--mute:#5b6679;--line:#d3d9e4;--vape:#0b8f90;--tab:#c9831f;
+  --head:'Bricolage Grotesque','Helvetica Neue',Arial,sans-serif;--body:'Newsreader',Georgia,serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1626;--surf:#18223a;--ink:#e8edf7;--mute:#9aa6bd;--line:#2a3652;--vape:#3cc9c9;--tab:#f0b04e;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0f1626;--surf:#18223a;--ink:#e8edf7;--mute:#9aa6bd;--line:#2a3652;--vape:#3cc9c9;--tab:#f0b04e;color-scheme:dark}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+html{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);scroll-padding-top:env(safe-area-inset-top,0px);background:var(--bg)}
+body{background:var(--bg);color:var(--ink);font:400 1.1rem/1.55 var(--body);overflow:hidden;position:relative}
+h1,h2,h3{font-family:var(--head);line-height:1.05;margin:0;letter-spacing:-.02em}
+button{font-family:var(--head);cursor:pointer;color:inherit}
+:focus-visible{outline:3px solid var(--vape);outline-offset:3px;border-radius:6px}
+.haze{position:absolute;border-radius:50%;filter:blur(70px);opacity:.45;animation:drift 20s ease-in-out infinite alternate;pointer-events:none}
+.h1{width:55vmax;height:55vmax;max-width:620px;max-height:620px;background:var(--vape);left:-12%;top:-15%}
+.h2{width:45vmax;height:45vmax;max-width:520px;max-height:520px;background:var(--tab);right:-10%;bottom:-20%;animation-duration:25s;animation-delay:-6s}
+@keyframes drift{from{transform:translate(0,0) scale(1)}to{transform:translate(7vw,-5vh) scale(1.25)}}
+.app{position:relative;z-index:1;height:100%;display:flex;flex-direction:column;max-width:1040px;margin:0 auto;padding:0 1.2rem}
+.stage{flex:1;min-height:0;position:relative}
+.view{position:absolute;inset:0;overflow-y:auto;padding:.6rem 0 1rem;opacity:0;visibility:hidden;transform:translateY(14px);transition:opacity .45s,transform .45s,visibility .45s}
+.view.on{opacity:1;visibility:visible;transform:none}
+h1{font-size:clamp(2.4rem,9vw,5.6rem);font-weight:800;max-width:13ch}
+h1 span{display:inline-block;opacity:0;transform:translateY(.5em)}
+.on h1 span{animation:rise .8s cubic-bezier(.2,.8,.2,1) forwards}
+@keyframes rise{to{opacity:1;transform:none}}
+h2{font-size:clamp(1.7rem,4.5vw,2.6rem);max-width:22ch}
+p{max-width:60ch;margin:.8rem 0 0}
+.lead{font-size:1.25rem;max-width:50ch;margin-top:1.2rem}
+.bar{height:6px;border-radius:3px;max-width:560px;margin-top:2rem;background:linear-gradient(90deg,var(--vape),var(--tab))}
+.on .bar{animation:grow 1.4s .8s cubic-bezier(.2,.8,.2,1) both;transform-origin:left}
+@keyframes grow{from{transform:scaleX(0)}}
+.ticks{display:flex;justify-content:space-between;max-width:560px;font:700 .95rem var(--head);margin-top:.5rem}
+.go{margin-top:1.6rem;display:inline-block;background:var(--ink);color:var(--bg);border:0;padding:.8rem 1.4rem;border-radius:999px;font-size:1.05rem;font-weight:700;transition:transform .2s}
+.go:hover{transform:translateX(4px)}
+.agebar{position:relative;max-width:560px;margin-top:2rem}
+.agebar .bar{margin-top:0}
+.pin{position:absolute;top:-6px;left:0;width:18px;height:18px;border-radius:50%;background:var(--surf);border:4px solid var(--ink);transform:translateX(-50%);opacity:0;transition:left .5s cubic-bezier(.2,.8,.2,1),opacity .3s;pointer-events:none}
+.tk{background:transparent;border:0;padding:.35rem .8rem;border-radius:999px;font:700 1rem var(--head);transition:background .25s,color .25s,transform .25s}
+.tk:hover{transform:translateY(-2px)}
+.tk.act{background:var(--ink);color:var(--bg)}
+.spoil{margin-top:.9rem;max-width:560px;min-height:3.4rem;background:var(--surf);border:1px solid var(--line);border-radius:12px;padding:.75rem 1rem;font-size:1.05rem;display:flex;align-items:center}
+.spoil b{font-family:var(--head)}
+.pop{display:inline-block;opacity:0;transform:translateY(6px);animation:rise .35s forwards}
+.split{display:grid;grid-template-columns:minmax(0,230px) 1fr;gap:1.4rem;margin-top:1.4rem}
+@media(max-width:700px){.split{grid-template-columns:1fr}}
+.opts{display:flex;flex-direction:column;gap:.5rem}
+@media(max-width:700px){.opts{flex-direction:row;flex-wrap:wrap}}
+.opt{text-align:left;background:transparent;border:2px solid var(--line);padding:.65rem 1rem;border-radius:12px;font-size:1rem;font-weight:700;transition:all .25s}
+.opt:hover{border-color:var(--vape)}
+.opt[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.card{background:var(--surf);border:1px solid var(--line);border-radius:16px;padding:1.4rem;min-height:170px}
+.card h3{font-size:1.4rem}
+.card p{font-size:1.05rem}
+.card h4{font:700 1.15rem var(--head);margin:1.3rem 0 0;padding-top:1rem;border-top:1px solid var(--line);letter-spacing:-.01em}
+.card ul{margin:.6rem 0 0;padding-left:1.2rem;font-size:1.05rem}
+.card li{margin:.4rem 0}
+.card p.warn{border-left:3px solid var(--tab);padding-left:.8rem;color:var(--mute);font-size:1rem}
+.slot{margin:1.1rem 0 0;border:2px dashed var(--line);border-radius:14px;padding:1.2rem;display:flex;flex-direction:column;align-items:center;text-align:center;gap:.25rem;color:var(--mute);min-height:150px;justify-content:center}
+.slot b{font:700 1rem var(--head);color:var(--ink)}
+.slot span{font-size:.95rem}
+.slot .k{font:700 .72rem var(--head);letter-spacing:.08em;text-transform:uppercase;color:var(--vape);font-style:normal}
+.slot img{max-width:100%;border-radius:10px;display:block}
+.slot:has(img){border:0;padding:0}
+.kr{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr) 4.2rem;gap:.7rem;align-items:center;margin:.6rem 0;font-size:.98rem}
+.kt{height:10px;background:var(--line);border-radius:5px;overflow:hidden}
+.kt i{display:block;height:100%;width:0;border-radius:5px;transition:width 1s cubic-bezier(.2,.8,.2,1)}
+
+.kr b{font:700 .95rem var(--head);text-align:right}
+.gfx{margin:1.2rem 0 0;padding:1.1rem 1.2rem 1rem;border-radius:14px;border:1px solid var(--line);background:linear-gradient(180deg,color-mix(in srgb,var(--vape) 7%,var(--surf)),var(--surf))}
+.gfx h5{margin:0;font:700 1.05rem var(--head)}
+.gfx .sub{display:block;font-size:.85rem;color:var(--mute)}
+.card .cap{font-size:.85rem;color:var(--mute);margin:.8rem 0 0;max-width:none}
+.vc{display:flex;justify-content:space-around;gap:1rem;margin-top:1rem}
+.vb{flex:1;max-width:96px;display:flex;flex-direction:column;align-items:center}
+.vp{width:100%;height:190px;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;border-bottom:2px solid var(--line)}
+.vp b{font:700 .95rem var(--head);margin-bottom:.3rem}
+.vp i{display:block;width:100%;height:0;border-radius:10px 10px 0 0;transition:height 1s cubic-bezier(.2,.8,.2,1),filter .2s}
+.vp i:hover{filter:brightness(1.12)}
+.vp i.t,.kt i.t{background:linear-gradient(180deg,#e7a53a,var(--tab))}
+.vp i.v,.kt i.v{background:linear-gradient(180deg,#34c1c1,var(--vape))}
+.vp i.d,.kt i.d{background:linear-gradient(180deg,var(--mute),var(--ink))}
+.vn{margin-top:.5rem;font:700 .85rem var(--head);text-align:center;color:var(--mute)}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+@media(max-width:700px){.pair{grid-template-columns:1fr}}
+.pair .gfx{margin-top:1.2rem}
+.pill{display:flex;justify-content:space-between;align-items:center;margin-top:.9rem;padding:.6rem 1rem;border-radius:999px;background:var(--bg);border:1px solid var(--line);font:700 .95rem var(--head)}
+.ratios{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.8rem;margin-top:1rem}
+.rc{padding:1rem;border-radius:12px;background:var(--surf);border:1px solid var(--line);border-top:4px solid var(--vape)}
+.rc:nth-child(2){border-top-color:var(--tab)}.rc:nth-child(4){border-top-color:var(--ink)}
+.rn{font:800 2.3rem/1 var(--head);letter-spacing:-.03em}
+.rc b{display:block;font:700 .95rem var(--head);margin-top:.5rem}
+.rc span{display:block;font-size:.85rem;color:var(--mute);margin-top:.15rem}
+.fr{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.4fr) auto;gap:.7rem;align-items:center;margin:.7rem 0;font-size:.95rem}
+.ft{position:relative;height:14px;background:var(--line);border-radius:7px}
+.ft u{position:absolute;top:5px;height:4px;border-radius:2px;background:var(--vape)}
+.ft i{position:absolute;top:0;width:14px;height:14px;margin-left:-7px;border-radius:50%;background:var(--ink);border:3px solid var(--surf)}
+.ft s{position:absolute;top:-4px;bottom:-4px;width:2px;background:var(--tab)}
+.fr b{font:700 .85rem var(--head)}
+.quad{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1.2rem}
+.quad .gfx{margin-top:0}
+.quad .vp,.quad .lp{height:130px}
+@media(max-width:700px){.quad{grid-template-columns:1fr}}
+.gb{flex:1;max-width:48px;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center}
+.gb b{font:700 .85rem var(--head);margin-bottom:.25rem}
+.vp.g{flex-direction:row;align-items:flex-end;justify-content:center;gap:6px}
+.vc.wide .vb{max-width:170px}.vc.wide .gb{max-width:64px}
+.vn small{display:block;font-weight:400;font-size:.78rem}
+.stk{display:flex;flex-direction:column-reverse;width:100%;height:0;transition:height 1s cubic-bezier(.2,.8,.2,1)}
+.stk em{display:block;width:100%}
+.stk em:last-child{border-radius:8px 8px 0 0}
+.gb i.t,.stk em.t,.lcol i.t,.lg i.t{background:linear-gradient(180deg,#e7a53a,var(--tab))}
+.gb i.v,.stk em.v,.lg i.v{background:linear-gradient(180deg,#34c1c1,var(--vape))}
+.gb i.d,.lg i.d{background:linear-gradient(180deg,var(--mute),var(--ink))}
+.vp i.n,.lg i.n{background:linear-gradient(180deg,#6f95d6,#3d6fb6)}
+.lg{display:flex;gap:1rem;flex-wrap:wrap;margin-top:.8rem;font:700 .8rem var(--head);color:var(--mute)}
+.lg i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:.35rem}
+.lp{position:relative;height:190px;display:grid;grid-template-columns:repeat(6,1fr);margin-top:1rem;border-bottom:2px solid var(--line)}
+.lcol{display:flex;align-items:flex-end;padding:0 5px}
+.lcol i{display:block;width:100%;height:0;border-radius:6px 6px 0 0;transition:height 1s cubic-bezier(.2,.8,.2,1)}
+.lp svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.lp polyline{stroke:var(--vape);stroke-width:3;stroke-linejoin:round;stroke-linecap:round}
+.lp s{position:absolute;width:10px;height:10px;margin:0 0 -5px -5px;border-radius:50%;background:var(--vape);border:2px solid var(--surf)}
+.ll{display:grid;grid-template-columns:repeat(6,1fr);text-align:center;font:700 .85rem var(--head);color:var(--mute);margin-top:.5rem}
+.dn{display:flex;align-items:center;justify-content:center;gap:1.2rem;min-height:170px;margin-top:.6rem}
+.ring{width:130px;height:130px;border-radius:50%;-webkit-mask:radial-gradient(circle,transparent 0 38px,#000 39px);mask:radial-gradient(circle,transparent 0 38px,#000 39px);animation:pop .9s cubic-bezier(.2,.8,.2,1) both}
+@keyframes pop{from{transform:scale(.6) rotate(-90deg);opacity:0}}
+.dl{display:flex;flex-direction:column;gap:.5rem;font:700 .9rem var(--head)}
+.dl i{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:.4rem}
+.dl i.n1,.zu{background:#3d6fb6}.dl i.n2,.zr{background:#9bb8e3}
+.dl b{color:var(--mute);margin-left:.3rem}
+.zb{display:flex;height:32px;margin-top:.9rem;border-radius:10px;overflow:hidden}
+.zb span{width:0;display:flex;align-items:center;justify-content:center;overflow:hidden;white-space:nowrap;font:700 .8rem var(--head);color:#fff;transition:width 1s cubic-bezier(.2,.8,.2,1)}
+.zb .zr{color:#14213d}
+.fo{--l:8.5rem;--r:7.8rem;margin-top:1rem}
+.fo.nar{--l:6.6rem;--r:2.4rem}
+.fo .fr{grid-template-columns:var(--l) minmax(0,1fr) var(--r)}
+.fo .kl{font:700 .82rem/1.2 var(--head)}
+.fo .fr b{text-align:right}
+.ft u.t{background:var(--tab)}.ft u.v{background:var(--vape)}.ft u.d{background:var(--ink)}
+.fa{position:relative;height:1.1rem;margin:.2rem calc(var(--r) + .7rem) 0 calc(var(--l) + .7rem);font:700 .75rem var(--head);color:var(--mute)}
+.fa span{position:absolute;transform:translateX(-50%)}
+.tb{width:100%;border-collapse:collapse;margin-top:.9rem;font-size:.82rem}
+.tb th{text-align:left;font:700 .75rem var(--head);color:var(--mute);padding:.35rem .3rem;border-bottom:2px solid var(--line)}
+.tb td{padding:.35rem .3rem;border-bottom:1px solid var(--line)}
+.kt i.n{background:linear-gradient(90deg,#6f95d6,#3d6fb6)}
+.quad>.gfx:last-child:nth-child(odd){grid-column:1/-1}
+a.go{text-decoration:none}
+.nodata{margin-top:.9rem;padding:.9rem 1rem;border:2px dashed var(--line);border-radius:12px;font-size:.88rem;color:var(--mute);text-align:center}
+.card a{color:var(--ink);text-decoration:underline;text-decoration-color:var(--vape);text-underline-offset:3px;word-break:break-all;font-weight:700}
+.fo{--r:9.6rem}
+.fo.nar{--r:2.6rem}
+
+
+
+@media(max-width:700px){.kr{grid-template-columns:1fr 4.2rem}.kt{grid-column:1/-1;order:3}}
+
+.card .sw{animation:rise .5s both;opacity:0;transform:translateY(8px)}
+.chips{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1.2rem}
+.chip{border:2px solid var(--line);background:transparent;padding:.45rem 1rem;border-radius:999px;font-weight:700;font-size:.95rem;transition:all .25s}
+.chip[aria-pressed="true"]{border-color:transparent;color:#fff;background:#14213d}
+.chip[data-k="v"][aria-pressed="true"]{background:#0b8f90}
+.chip[data-k="t"][aria-pressed="true"]{background:#b57416}
+.chip.dim[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.chart{background:var(--surf);border:1px solid var(--line);border-radius:16px;padding:1rem 1.2rem 1.2rem;margin-top:1rem}
+.cols{display:flex;align-items:flex-end;gap:1rem;height:clamp(150px,30vh,260px);border-bottom:2px solid var(--line);margin-top:1.6rem}
+.grp{flex:1;display:flex;align-items:flex-end;justify-content:center;gap:6px;height:100%}
+.col{width:min(38px,42%);border-radius:8px 8px 0 0;height:0;position:relative;transition:height .9s cubic-bezier(.2,.8,.2,1),opacity .4s}
+.col.v{background:var(--vape)}.col.t{background:var(--tab)}
+.col.off{opacity:0;height:0!important}
+.col::after{content:attr(data-val);position:absolute;top:-1.4rem;left:50%;transform:translateX(-50%);font:700 .85rem var(--head)}
+.labs{display:flex;gap:1rem;margin-top:.5rem;font:700 .9rem var(--head);text-align:center}
+.labs span{flex:1}
+.legend{display:flex;gap:1.2rem;margin-top:.7rem;font:700 .9rem var(--head)}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:.4rem}
+.note{font-size:.9rem;color:var(--mute);margin:.6rem 0 0}
+.nav{padding:1rem 0 .8rem}
+.tabs{flex:1;display:flex;gap:.4rem;overflow-x:auto;scrollbar-width:none}
+.tabs button{flex:1;white-space:nowrap;border:2px solid var(--line);background:var(--surf);padding:.6rem .8rem;border-radius:12px;font-weight:700;font-size:.95rem;transition:all .25s}
+.tabs button[aria-current="page"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}h1 span{opacity:1;transform:none}.card .sw,.pop{opacity:1;transform:none}.pin{transition:none}}
+</style>
+</head>
+<body>
+<div class="haze h1"></div><div class="haze h2"></div>
+<div class="app">
+  <nav class="nav" aria-label="Navegación"><div class="tabs" id="tabs"></div></nav>
+  <main class="stage">
+
+    <section class="view" id="v-inicio" aria-label="Inicio">
+      <h1 aria-label="Entre el vapor y la tradición"><span style="animation-delay:.1s">Humo</span> <span style="animation-delay:.25s">nuevo,</span> <span style="animation-delay:.4s">hábitos</span> <span style="animation-delay:.55s">viejos</span></h1>
+      <p class="lead">Un análisis estadístico basado en los datos de la ENSCPA 2019 del DANE sobre las tendencias de consumo de nicontina en jóvenes de Colombia..</p>
+      <div class="agebar"><div class="bar"></div><i class="pin" id="pin"></i></div>
+      <div class="ticks" id="ticks">
+        <button class="tk" data-i="0" aria-label="Edad 14">14</button>
+        <button class="tk" data-i="1" aria-label="Edad 18">18</button>
+        <button class="tk" data-i="2" aria-label="Edad 22">22</button>
+        <button class="tk" data-i="3" aria-label="Edad 28">28</button>
+      </div>
+      <div class="spoil" id="spoil" aria-live="polite">Pasa el cursor o toca una edad para ver un dato relevante.</div>
+      <button class="go" data-go="pregunta">Conocer más</button>
+    </section>
+
+    <section class="view" id="v-pregunta" aria-label="Enfoque">
+      <h2>Problemática de investigación</h2>
+      <div class="split">
+        <div class="opts" role="group" aria-label="Elegir tema">
+          <button class="opt" data-grp="q" data-i="0" aria-pressed="true">Problema</button>
+          <button class="opt" data-grp="q" data-i="1" aria-pressed="false">Pregunta</button>
+          <button class="opt" data-grp="q" data-i="2" aria-pressed="false">Objetivos</button>
+          <button class="opt" data-grp="q" data-i="3" aria-pressed="false">Justificación</button>
+        </div>
+        <div class="card" id="q-card"></div>
+      </div>
+    </section>
+
+    <section class="view" id="v-metodo" aria-label="Método">
+      <h2>Cómo lo estudiamos</h2>
+      <div class="split">
+        <div class="opts" role="group" aria-label="Elegir etapa">
+          <button class="opt" data-grp="m" data-i="0" aria-pressed="true">Fuente</button>
+          <button class="opt" data-grp="m" data-i="1" aria-pressed="false">Población</button>
+          <button class="opt" data-grp="m" data-i="2" aria-pressed="false">Diseño</button>
+          <button class="opt" data-grp="m" data-i="3" aria-pressed="false">Procesamiento</button>
+          <button class="opt" data-grp="m" data-i="4" aria-pressed="false">Variables</button>
+          <button class="opt" data-grp="m" data-i="5" aria-pressed="false">Técnicas</button>
+        </div>
+        <div class="card" id="m-card"></div>
+      </div>
+    </section>
+
+    <section class="view" id="v-analisis" aria-label="Análisis">
+      <h2>Análisis estadístico</h2>
+      <div class="split">
+        <div class="opts" role="group" aria-label="Elegir técnica">
+          <button class="opt" data-grp="a" data-i="0" aria-pressed="true">Descriptiva</button>
+          <button class="opt" data-grp="a" data-i="1" aria-pressed="false">Bivariado</button>
+          <button class="opt" data-grp="a" data-i="2" aria-pressed="false">Chi-cuadrado</button>
+          <button class="opt" data-grp="a" data-i="3" aria-pressed="false">Regresión</button>
+          <button class="opt" data-grp="a" data-i="4" aria-pressed="false">Intervalos</button>
+          <button class="opt" data-grp="a" data-i="5" aria-pressed="false">Tabaco vs. vape</button>
+        </div>
+        <div class="card" id="a-card"></div>
+      </div>
+    </section>
+
+    <section class="view" id="v-resultados" aria-label="Resultados">
+      <h2>Resultados</h2>
+      <div class="split">
+        <div class="opts" role="group" aria-label="Elegir apartado">
+          <button class="opt" data-grp="r" data-i="0" aria-pressed="true">Hallazgos</button>
+          <button class="opt" data-grp="r" data-i="1" aria-pressed="false">Interpretación</button>
+          <button class="opt" data-grp="r" data-i="2" aria-pressed="false">Conclusión</button>
+        </div>
+        <div class="card" id="r-card"></div>
+      </div>
+    </section>
+
+      <section class="view" id="v-codigo" aria-label="Código">
+      <h2>Código del análisis</h2>
+      <p>El análisis estadístico se desarrolló en Python en un cuaderno de Google Colab. Ábrelo para ver el código y ejecutarlo.</p>
+      <a class="go" href="https://colab.research.google.com/drive/1HuCAtAD60n_2OVxrgjmNOpHwN4L8P-4n?usp=sharing" target="_blank" rel="noopener">Ir a Google Colab</a>
+    </section>
+  </main>
+</div>
+<script>
+(function(){
+  var views=[['inicio','Inicio'],['pregunta','Enfoque'],['metodo','Método'],['analisis','Análisis'],['resultados','Resultados'],['codigo','Código']];
+  var T={"q": [{"t": "Problema de investigación", "b": ["El consumo de tabaco y cigarrillos electrónicos representa un tema de interés para la salud pública, especialmente durante la juventud. Conocer cómo se presentan estas conductas y qué características sociodemográficas se relacionan con ellas permite comprender mejor sus patrones en la población colombiana."]}, {"t": "Pregunta de investigación", "b": ["¿Cómo se caracteriza el consumo de tabaco y vapeo en la población juvenil colombiana y qué relación existe entre ambas conductas?"]}, {"t": "Objetivo general", "b": ["Describir la prevalencia del consumo de tabaco, vapeo con nicotina y consumo dual, y analizar su asociación en jóvenes de 14 a 28 años.", ">Objetivos específicos", ["Describir la prevalencia del consumo de tabaco y cigarrillos electrónicos en la población estudiada.", "Comparar los patrones de consumo según edad, sexo y estrato socioeconómico.", "Explorar la relación entre el consumo de tabaco y cigarrillos electrónicos."]]}, {"t": "Justificación", "b": ["El estudio permite reconocer patrones de consumo en la población joven colombiana y aportar información estadística que contribuya a comprender esta problemática desde una perspectiva sociodemográfica y de salud pública."]}], "m": [{"t": "Fuente de información", "b": ["Se utilizaron los microdatos oficiales de la Encuesta Nacional de Consumo de Sustancias Psicoactivas (ENCSPA 2019), desarrollada por el Departamento Administrativo Nacional de Estadística (DANE).", "@https://microdatos.dane.gov.co/index.php/catalog/680/get-microdata"]}, {"t": "Población y muestra", "b": ["La encuesta comprende población de 12 a 65 años. Para esta investigación se delimitó la población de interés a jóvenes entre 14 y 28 años cumplidos. La muestra analizada es de 14.758 personas."]}, {"t": "Diseño muestral", "b": ["La ENCSPA utiliza un diseño probabilístico, multietápico y por conglomerados. La selección contempla municipios, manzanas, segmentos de viviendas y una persona por hogar."]}, {"t": "Procesamiento de datos", "b": ["Se integraron los archivos originales de personas, personas seleccionadas, encuestas y capítulos individuales. Se revisaron duplicados, datos faltantes, códigos de respuesta y consistencia de los registros.", "Se utilizó el factor de expansión FEX_C para calcular estimaciones ponderadas de la población."]}, {"t": "Variables analizadas", "b": [["Sociodemográficas: edad, sexo y estrato socioeconómico.", "Consumo de tabaco: alguna vez en la vida, últimos 12 meses y últimos 30 días.", "Consumo de cigarrillos electrónicos: alguna vez en la vida y últimos 30 días."]]}, {"t": "Técnicas estadísticas", "b": [["Estadística descriptiva.", "Análisis bivariado.", "Tablas de contingencia.", "Comparación de proporciones.", "Pruebas de asociación, cuando el diseño muestral lo permita.", "Visualización e interpretación de resultados."], "Alcance: describe patrones y asociaciones, sin atribuir causalidad."]}], "a": [{"t": "Estadística descriptiva", "b": ["Caracteriza a la población joven mediante frecuencias, porcentajes ponderados y distribuciones sociodemográficas.", ["Distribución por edad.", "Distribución por sexo.", "Distribución por estrato.", "Prevalencia de consumo de tabaco y vape."], "#desc"]}, {"t": "Análisis bivariado", "b": ["Examina las diferencias en los patrones de consumo según las características sociodemográficas.", ["Edad y consumo.", "Sexo y consumo.", "Estrato y consumo."], "#biv"]}, {"t": "Chi-cuadrado y asociación", "b": ["Evalúa la asociación entre el consumo de tabaco y el de vapeo con nicotina en los últimos 30 días mediante una tabla de contingencia ponderada y el coeficiente φ ponderado.", "Resultado: φ = 0,164, una asociación positiva débil."]}, {"t": "Regresión logística", "b": ["Explora la relación simultánea entre las características sociodemográficas y el consumo de cada sustancia.", ["Modelo 1: consumo de tabaco en los últimos 30 días.", "Modelo 2: consumo de vape en los últimos 30 días."], "Se presentan odds ratios (OR) ponderados con intervalos de confianza del 95 % y valores p.", "#reg"]}, {"t": "Intervalos de confianza", "b": ["Presenta intervalos de confianza del 95 % para las principales estimaciones de prevalencia, con el propósito de evaluar su precisión.", "#ic"]}, {"t": "Comparación: tabaco vs. vape", "b": ["Compara las prevalencias de ambas sustancias y examina el posible consumo combinado.", ["Solo tabaco.", "Solo vape.", "Ambos productos.", "Ninguno de los dos."], "La comparación se realiza por separado para consumo alguna vez y consumo en los últimos 30 días, sin mezclar periodos de referencia.", "#cmp"]}], "r": [{"t": "Principales hallazgos", "b": ["En esta sección se presentan los resultados obtenidos para la población de 14 a 28 años mediante indicadores, tablas y gráficos.", ">Indicadores principales", "$"]}, {"t": "Interpretación general", "b": ["El consumo de tabaco es mayor en hombres que en mujeres (13,09 % frente a 4,59 %). El vapeo con nicotina es más frecuente en el grupo de 18 a 28 años (1,38 %) que en el de 14 a 17 años (0,71 %). Existe una asociación positiva débil entre el consumo de tabaco y el vapeo (φ ponderado = 0,164).", "#res2"]}, {"t": "Conclusión", "b": [["El 8,89 % de los jóvenes consume tabaco, el 1,20 % vapea con nicotina y el 0,62 % presenta consumo dual.", "El consumo de tabaco es significativamente mayor en hombres (13,09 %) que en mujeres (4,59 %).", "Se evidencia una asociación positiva débil entre el consumo de tabaco y el vapeo (φ = 0,164), lo que sugiere que quienes fuman tienen una mayor probabilidad de vapear."]]}]}
+  var KP=[["Consumo de tabaco", 8.89, "t"], ["Consumo de vape con nicotina", 1.2, "v"], ["Consumo dual", 0.62, "d"], ["Consumo de tabaco en hombres", 13.09, "t"], ["Consumo de tabaco en mujeres", 4.59, "t"], ["Consumo de vape, 14 a 17 años", 0.71, "v"], ["Consumo de vape, 18 a 28 años", 1.38, "v"]];
+  var RD={"edad": [["14–17", 26.0, 2464], ["18–24", 46.8, 7601], ["25–28", 27.1, 4693]], "sexo": [50.7, 49.3], "estrato": [26.3, 37.8, 27.5, 5.5, 1.8, 0.8], "ever": [27.3, 9.8], "bi_edad": [["14–17", 1.48, 0.71], ["18–24", 10.81, 1.68], ["25–28", 12.7, 0.85]], "bi_sexo": [["Hombres", 13.09, 1.78], ["Mujeres", 4.59, 0.61]], "bi_estrato": [[1, 6.3, 0.39], [2, 9.65, 1.13], [3, 9.99, 1.28], [4, 9.81, 3.6], [5, 10.78, 4.27], [6, 10.2, 5.78]], "cmp_ever": [20.6, 3.1, 6.7, 69.6], "cmp_30": [8.3, 0.6, 0.6, 90.5], "ic": [["Solo tabaco", 8.28, 7.64, 8.91], ["Solo vape", 0.59, 0.42, 0.75], ["Ambos productos", 0.62, 0.43, 0.8]], "reg_t": [["Sexo masculino (vs. femenino)", 3.18, 2.65, 3.82, "<0,001"], ["Edad 18–28 (vs. 14–17)", 8.84, 5.28, 14.79, "<0,001"], ["Estrato alto 4–6 (vs. bajo 1–3)", 1.09, 0.83, 1.45, "0,531"]], "reg_v": [["Sexo masculino (vs. femenino)", 2.91, 1.87, 4.54, "<0,001"], ["Edad 18–28 (vs. 14–17)", 1.9, 1.08, 3.36, "0,026"], ["Estrato alto 4–6 (vs. bajo 1–3)", 4.11, 2.54, 6.65, "<0,001"]]};
+  var D={
+    edad:[['14–17',12,6],['18–21',21,13],['22–25',17,16],['26–28',10,15]],
+    sexo:[['Mujeres',14,8],['Hombres',18,15]],
+    region:[['Bogotá',19,12],['Antioquia',15,14],['Valle',13,11],['Caribe',11,9]]
+  };
+  var cur=0,ACT={};
+  var tabs=document.getElementById('tabs');
+  views.forEach(function(v,i){
+    var b=document.createElement('button');b.textContent=v[1];
+    b.addEventListener('click',function(){show(i)});tabs.appendChild(b);
+  });
+  function show(i,skip){
+    cur=i;
+    views.forEach(function(v,j){
+      var el=document.getElementById('v-'+v[0]);
+      el.classList.toggle('on',j===i);
+      tabs.children[j].setAttribute('aria-current',j===i?'page':'false');
+    });
+    try{if(!skip)history.replaceState(null,'','#'+views[i][0])}catch(e){}
+    if(views[i][0]==='resultados')card('r',ACT.r||0);
+  }
+  document.querySelector('[data-go]').addEventListener('click',function(){show(1)});
+  document.addEventListener('keydown',function(e){
+    if(e.key==='ArrowRight'&&cur<views.length-1)show(cur+1);
+    if(e.key==='ArrowLeft'&&cur>0)show(cur-1);
+  });
+  function card(g,i){
+    ACT[g]=i;
+    var c=document.getElementById(g+'-card'),it=T[g][i];
+    c.innerHTML='<div class="sw"></div>';var sw=c.firstChild;
+    var h=document.createElement('h3');h.textContent=it.t;sw.appendChild(h);
+    it.b.forEach(function(x){sw.appendChild(block(x))});
+  }
+  function block(x){
+    var e;
+    if(Array.isArray(x)){e=document.createElement('ul');x.forEach(function(t){var li=document.createElement('li');li.textContent=t;e.appendChild(li)});return e}
+    var k=x.charAt(0),r=x.slice(1);
+    if(k==='>'){e=document.createElement('h4');e.textContent=r;return e}
+    if(k==='!'){e=document.createElement('p');e.className='warn';e.textContent=r;return e}
+    if(k==='@'){e=document.createElement('p');e.appendChild(document.createTextNode('Fuente: '));var a=document.createElement('a');a.href=r;a.target='_blank';a.rel='noopener';a.textContent=r;e.appendChild(a);return e}
+    if(k==='#')return chart(r);
+    if(k==='$')return kpi();
+    e=document.createElement('p');e.textContent=x;return e;
+  }
+  function fm(n){return n.toFixed(2).replace('.',',')}
+  function gfx(t,sub){var g=document.createElement('div');g.className='gfx';var h=document.createElement('h5');h.textContent=t;g.appendChild(h);if(sub){var p=document.createElement('span');p.className='sub';p.textContent=sub;g.appendChild(p)}return g}
+  function cap(t){var p=document.createElement('p');p.className='cap';p.textContent=t;return p}
+  function grow(w){requestAnimationFrame(function(){requestAnimationFrame(function(){
+    w.querySelectorAll('[data-h]').forEach(function(e){e.style.height=e.dataset.h});
+    w.querySelectorAll('[data-w]').forEach(function(e){e.style.width=e.dataset.w+'%'})})})}
+  function f1(n){return String(n).replace('.',',')}
+  function vcols(rows,max){
+    var w=document.createElement('div');w.className='vc';
+    rows.forEach(function(r){var d=document.createElement('div');d.className='vb';
+      d.innerHTML='<div class="vp"><b></b><i class="'+r[2]+'"></i></div><span class="vn"></span>';
+      var b=d.querySelector('b'),nl=r[3]==='';if(nl)b.remove();else b.textContent=r[3]||fm(r[1])+' %';
+      d.querySelector('i').dataset.h=(r[1]/max*(nl?100:82))+'%';
+      var n=d.querySelector('.vn');n.textContent=r[0];
+      if(r[4]){var q=document.createElement('small');q.textContent=r[4];n.appendChild(q)}
+      w.appendChild(d)});
+    return w}
+  function scols(rows,max){
+    var w=document.createElement('div');w.className='vc';
+    rows.forEach(function(r){var d=document.createElement('div');d.className='vb';
+      d.innerHTML='<div class="vp"><div class="stk"><em class="t"></em><em class="v"></em></div></div><span class="vn"></span>';
+      var k=d.querySelector('.stk');k.dataset.h=((r[1]+r[2])/max*100)+'%';
+      k.children[0].style.flex=r[1];k.children[1].style.flex=r[2];
+      d.querySelector('.vn').textContent=r[0];w.appendChild(d)});
+    return w}
+  function gcols(rows,max,lab,wide){
+    var w=document.createElement('div');w.className='vc'+(wide?' wide':'');
+    rows.forEach(function(r){var d=document.createElement('div');d.className='vb';var h='';
+      r[1].forEach(function(v,k){h+='<div class="gb"><b>'+(lab?f1(v)+' %':'')+'</b><i class="'+r[2][k]+'" data-h="'+(v/max*(lab?82:100))+'%"></i></div>'});
+      d.innerHTML='<div class="vp g">'+h+'</div><span class="vn"></span>';
+      var n=d.querySelector('.vn');n.textContent=r[0];
+      if(r[3]){var q=document.createElement('small');q.textContent=r[3];n.appendChild(q)}
+      w.appendChild(d)});
+    return w}
+  function lg(a){var d=document.createElement('div');d.className='lg';
+    a.forEach(function(x){var s=document.createElement('span');s.innerHTML='<i class="'+x[1]+'"></i>';s.appendChild(document.createTextNode(x[0]));d.appendChild(s)});return d}
+  function estr(T6,V,M){
+    var pts=[],h='<div class="lp">',dots='',lab='';
+    T6.forEach(function(t,i){var x=(i+.5)/T6.length*100,q=V[i]/M*100;
+      h+='<div class="lcol"><i class="t" data-h="'+(t/M*100)+'%" title="Tabaco: '+f1(t)+' %"></i></div>';lab+='<span>'+(i+1)+'</span>';
+      pts.push(x+','+(100-q));dots+='<s style="left:'+x+'%;bottom:'+q+'%" title="Vapeo: '+f1(V[i])+' %"></s>'});
+    var w=document.createElement('div');
+    w.innerHTML=h+'<svg viewBox="0 0 100 100" preserveAspectRatio="none"><polyline fill="none" vector-effect="non-scaling-stroke" points="'+pts.join(' ')+'"/></svg>'+dots+'</div><div class="ll">'+lab+'</div>';
+    return w}
+  function donut(a){
+    var w=document.createElement('div');w.className='dn';
+    w.innerHTML='<div class="ring" style="background:conic-gradient(#3d6fb6 0 '+a[0]+'%,#9bb8e3 '+a[0]+'% 100%)"></div><div class="dl"><span><i class="n1"></i>Hombres <b>'+f1(a[0])+' %</b></span><span><i class="n2"></i>Mujeres <b>'+f1(a[1])+' %</b></span></div>';
+    return w}
+  function sub(t){var p=document.createElement('span');p.className='sub';p.textContent=t;return p}
+  function hbars(rows,max){
+    var w=document.createElement('div');w.className='kpi';
+    rows.forEach(function(r){var d=document.createElement('div');d.className='kr';
+      d.innerHTML='<span class="kl"></span><span class="kt"><i class="'+r[2]+'"></i></span><b></b>';
+      d.querySelector('.kl').textContent=r[0];d.querySelector('b').textContent=fm(r[1])+' %';
+      d.querySelector('i').dataset.w=r[1]/max*100;w.appendChild(d)});
+    grow(w);return w}
+  function kpi(){return hbars(KP,15)}
+  function chart(k){
+    var f={desc:cDesc,biv:cBiv,cmp:cCmp,reg:cReg,ic:cIC,res2:cRes}[k];
+    return f?f():document.createDocumentFragment();
+  }
+  var MK='Fuente: ENCSPA 2019 (DANE). Porcentajes ponderados con FEX_C, población de 14 a 28 años (n = 14.758).';
+  function quad(a,x){var f=document.createDocumentFragment(),q=document.createElement('div');q.className='quad';
+    a.forEach(function(x){q.appendChild(x)});grow(q);f.appendChild(q);f.appendChild(cap(MK+(x||'')));return f}
+  function pr(v){return f1(v)+' %'}
+  function cDesc(){
+    var a=gfx('Distribución por edad','Frecuencias ponderadas');
+    a.appendChild(vcols(RD.edad.map(function(r){return [r[0],r[1],'n',pr(r[1]),'N = '+r[2].toLocaleString('es-CO')]}),60));
+    var b=gfx('Distribución por sexo','Población de 14 a 28 años');b.appendChild(donut(RD.sexo));
+    var c=gfx('Estrato socioeconómico','Estratos 1 a 6');
+    c.appendChild(vcols(RD.estrato.map(function(v,i){return [String(i+1),v,'n',pr(v)]}),46));
+    var d=gfx('Prevalencia de consumo','Alguna vez en la vida');
+    d.appendChild(vcols([['Tabaco',RD.ever[0],'t',pr(RD.ever[0])],['Vape',RD.ever[1],'v',pr(RD.ever[1])]],35));
+    return quad([a,b,c,d])}
+  function cBiv(){
+    var a=gfx('Edad y consumo','Últimos 30 días');a.appendChild(gcols(RD.bi_edad.map(function(r){return [r[0],[r[1],r[2]],['t','v']]}),14,true));a.appendChild(lg([['Tabaco','t'],['Vapeo','v']]));
+    var b=gfx('Sexo y consumo','Últimos 30 días');b.appendChild(gcols(RD.bi_sexo.map(function(r){return [r[0],[r[1],r[2]],['t','v']]}),16,true));b.appendChild(lg([['Tabaco','t'],['Vapeo','v']]));
+    var c=gfx('Estrato y consumo','Barras: tabaco · línea: vapeo (últimos 30 días)');
+    c.appendChild(estr(RD.bi_estrato.map(function(r){return r[1]}),RD.bi_estrato.map(function(r){return r[2]}),12));
+    return quad([a,b,c])}
+  function cCmp(){
+    var g=gfx('Comparación: tabaco vs. vape','Resultados de prevalencia (%)'),N=['Solo tabaco','Solo vape','Ambos productos','Ninguno'];
+    g.appendChild(gcols(N.map(function(n,i){return [n,[RD.cmp_ever[i],RD.cmp_30[i]],['d','v']]}),80,true,true));
+    g.appendChild(lg([['Consumo alguna vez','d'],['Consumo últimos 30 días','v']]));g.appendChild(cap(MK));grow(g);return g}
+  function tbl(rows){
+    var t=document.createElement('table');t.className='tb';
+    t.innerHTML='<thead><tr><th>Variable</th><th>OR</th><th>IC 95 %</th><th>p</th></tr></thead>';
+    var b=document.createElement('tbody');
+    rows.forEach(function(r){var tr=document.createElement('tr');
+      [r[0].split(' (')[0],fm(r[1]),'['+fm(r[2])+'; '+fm(r[3])+']',r[4]].forEach(function(x){var td=document.createElement('td');td.textContent=x;tr.appendChild(td)});b.appendChild(tr)});
+    t.appendChild(b);return t}
+  function cReg(){
+    var f=document.createDocumentFragment(),p=document.createElement('div');p.className='pair';
+    [['Modelo 1: tabaco','t',RD.reg_t,16,[.5,1,2,4,8,16]],['Modelo 2: vape','v',RD.reg_v,8,[.5,1,2,4,8]]].forEach(function(m){
+      var g=gfx(m[0],'Últimos 30 días · odds ratio (OR) con IC 95 %');
+      var fo=forest(m[2].map(function(r){return [r[0],r[1],r[2],r[3]]}),{min:.5,max:m[3],log:true,ref:1,cls:m[1],ticks:m[4],lab:function(r){return fm(r[1])}});fo.classList.add('nar');
+      g.appendChild(fo);g.appendChild(tbl(m[2]));p.appendChild(g)});
+    f.appendChild(p);f.appendChild(cap('OR ponderados con FEX_C, en escala logarítmica; la línea vertical marca OR = 1. Edad: 18–28 frente a 14–17; estrato alto: 4 a 6 frente a bajo: 1 a 3. Fuente: ENCSPA 2019 (DANE).'));return f}
+  function cIC(){
+    var g=gfx('Intervalos de confianza (IC 95 %)','Prevalencia de consumo en los últimos 30 días');
+    var C=['t','v','d'];
+    g.appendChild(forest(RD.ic.map(function(r,i){return [r[0],r[1],r[2],r[3],C[i]]}),{min:0,max:10,ticks:[0,2,4,6,8,10],lab:function(r){return fm(r[1])+' % ['+fm(r[2])+'–'+fm(r[3])+']'}}));
+    g.appendChild(cap(MK+''));return g}
+  function cRes(){
+    var g=gfx('Qué tan grande es cada diferencia','Cocientes entre indicadores principales');
+    var R=[[KP[0][1]/KP[1][1],1,'×','Tabaco frente a vape',fm(KP[0][1])+' % frente a '+fm(KP[1][1])+' %'],
+      [KP[3][1]/KP[4][1],1,'×','Hombres frente a mujeres',fm(KP[3][1])+' % frente a '+fm(KP[4][1])+' % (tabaco)'],
+      [KP[6][1]/KP[5][1],1,'×','18–28 frente a 14–17 años',fm(KP[6][1])+' % frente a '+fm(KP[5][1])+' % (vape)'],
+      [KP[2][1]/KP[1][1]*100,0,' %','Vapeadores que también fuman',fm(KP[2][1])+' % sobre '+fm(KP[1][1])+' %']];
+    var w=document.createElement('div');w.className='ratios';
+    R.forEach(function(r){var d=document.createElement('div');d.className='rc';
+      d.innerHTML='<div class="rn"></div><b></b><span></span>';
+      d.querySelector('b').textContent=r[3];d.querySelector('span').textContent=r[4];
+      var n=d.querySelector('.rn'),sh=function(x){n.textContent=x.toFixed(r[1]).replace('.',',')+r[2]};
+      if(window.matchMedia('(prefers-reduced-motion:reduce)').matches)sh(r[0]);
+      else{sh(0);var t0=null;(function st(ts){if(t0===null)t0=ts;var q=Math.min((ts-t0)/1000,1);sh(r[0]*(1-Math.pow(1-q,3)));if(q<1)requestAnimationFrame(st)})(performance.now())}
+      w.appendChild(d)});
+    g.appendChild(w);
+    g.appendChild(cap('Cocientes calculados con los indicadores principales (ENCSPA 2019, DANE; ponderados con FEX_C).'));
+    return g}
+  function forest(rows,o){
+    var w=document.createElement('div');w.className='fo';
+    var L=o.log?Math.log:function(v){return v},pc=function(v){return (L(v)-L(o.min))/(L(o.max)-L(o.min))*100};
+    rows.forEach(function(r){var d=document.createElement('div');d.className='fr';
+      d.innerHTML='<span class="kl"></span><span class="ft">'+(o.ref!=null?'<s style="left:'+pc(o.ref)+'%"></s>':'')+'<u class="'+(r[4]||o.cls||'v')+'"></u><i></i></span><b></b>';
+      d.querySelector('.kl').textContent=r[0];
+      var u=d.querySelector('u');u.style.left=pc(r[2])+'%';u.style.width=(pc(r[3])-pc(r[2]))+'%';
+      d.querySelector('i').style.left=pc(r[1])+'%';d.querySelector('b').textContent=o.lab(r);w.appendChild(d)});
+    var ax=document.createElement('div');ax.className='fa';
+    o.ticks.forEach(function(t){var x=document.createElement('span');x.style.left=pc(t)+'%';x.textContent=f1(t);ax.appendChild(x)});
+    w.appendChild(ax);return w}
+  ['q','m','a','r'].forEach(function(g){card(g,0)});
+  document.querySelectorAll('[data-grp]').forEach(function(b){
+    b.addEventListener('click',function(){
+      var g=b.dataset.grp;
+      document.querySelectorAll('[data-grp="'+g+'"]').forEach(function(x){x.setAttribute('aria-pressed',x===b)});
+      card(g,+b.dataset.i);
+    });
+  });
+  var SP=[['14','El vapeo ya supera al cigarrillo tradicional: 2,55 % vs. 2,51 % de inicio temprano.'],['18','El 26,9 % de los jóvenes colombianos de 18 años reportó haber consumido tabaco o cigarrillos electrónicos alguna vez en su vida.'],['22','Casi la mitad de los hombres de 22 años (46,4 %) ya ha fumado tabaco alguna vez en su vida.'],['28','El 18,4 % de los hombres de 28 años fumó tabaco en el último mes.']];
+  var tks=document.querySelectorAll('.tk'),pin=document.getElementById('pin'),spoil=document.getElementById('spoil'),ticksEl=document.getElementById('ticks'),act=-1;
+  function movePin(){
+    if(act<0)return;
+    var b=tks[act];pin.style.left=(b.offsetLeft+b.offsetWidth/2)+'px';
+  }
+  function pick(i){
+    if(i===act)return;
+    act=i;
+    tks.forEach(function(t,j){t.classList.toggle('act',j===i)});
+    pin.style.opacity=1;movePin();
+    spoil.innerHTML='<span class="pop"><b></b> <span></span></span>';
+    spoil.querySelector('b').textContent='A los '+SP[i][0]+':';
+    spoil.querySelector('.pop span').textContent=SP[i][1];
+  }
+  tks.forEach(function(t,i){
+    ['mouseenter','focus','click'].forEach(function(ev){t.addEventListener(ev,function(){pick(i)})});
+  });
+  window.addEventListener('resize',movePin);
+  function fromHash(){
+    var h=(location.hash||'').slice(1),i=views.findIndex(function(v){return v[0]===h});
+    show(i<0?0:i,true);
+  }
+  window.addEventListener('hashchange',fromHash);
+  fromHash();
+})();
+</script>
+</body>
+</html>
